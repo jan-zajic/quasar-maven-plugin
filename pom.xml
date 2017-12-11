@@ -85,9 +85,10 @@
             <version>${maven-annotations.version}</version>
         </dependency>
         <dependency>
-            <groupId>co.paralleluniverse</groupId>
             <artifactId>quasar-core</artifactId>
+			<groupId>co.paralleluniverse</groupId>
             <version>${quasar.version}</version>
+            <classifier>jdk8</classifier>
         </dependency>
     </dependencies>
 
