@@ -74,10 +74,17 @@ public class QuasarInstrumentorMojo extends AbstractMojo {
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
     protected MavenProject project;
 
+    @Parameter
+    protected boolean optimizationDisabled = false;
+    
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Instrumenting Quasar classes...");
 
+        if(optimizationDisabled) {
+        	System.setProperty("co.paralleluniverse.fibers.disableInstrumentationOptimization", "true");
+        }
+        
         if (buildDirectory == null || !buildDirectory.isDirectory())
             throw new MojoExecutionException("Invalid build directory: " + buildDirectory);
 
@@ -146,6 +153,8 @@ public class QuasarInstrumentorMojo extends AbstractMojo {
         }
 
         instrumentClasses(instrumentor, cl, classes);
+        
+        System.getProperties().remove("co.paralleluniverse.fibers.disableInstrumentationOptimization");
     }
 
     protected void logDebug(String fmt, Object... args) {
